@@ -1,0 +1,27 @@
+/*Google fonts
+font-family: 'Quicksand', sans-serif;
+font-family: 'Vesper Libre', serif;*/
+
+body {
+	background-image: url("../images/atocha.jpg");
+	background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1 {
+	font-family: 'Vesper Libre', serif;
+}
+
+.container {
+	opacity: 0.95;
+}
+
+.jumbotron {
+	margin-top: 25px;
+}
+
+.form-control {
+	color: darkgrey;
+	font-size: 14px;
+}

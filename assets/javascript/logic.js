@@ -32,13 +32,18 @@ $("#add-train-btn").on("click", function (event) {
   console.log(newTrain.first, "-new train first train");
   console.log(newTrain.frequency, "-new train frequency");
 
-//push user train to database
-  dbRef.push(newTrain);
+//push user train to database if all fields filled
+  if(newTrain.name && newTrain.destination && newTrain.first && newTrain.frequency) {
+    dbRef.push(newTrain);
 
-  resetInputs();
+    resetInputs();
 
-  return newTrain;
+    return newTrain;
+  }
 
+  else {
+    console.log("All values not input.");
+  }
 });
 
 //Snapshot of dbRef on train addition

@@ -9,11 +9,7 @@ const config = {
 
 firebase.initializeApp(config);
 
-// var trainName = "";
-// var destination = "";
-// var frequency = "";
-// var nextArrival = "";
-// var minutesAway = "";
+const newTrain = {};
 
 const dbRef = firebase.database().ref("timetable/trains");
 
@@ -23,15 +19,14 @@ $("#add-train-btn").on("click", function (event) {
 	const newTrain = {
     name: $("#train-name-input").val().trim(),
     destination: $("#destination-input").val().trim(),
-    first: moment($("#first-train-input").val().trim(), "HH:mm").format("HH:mm"),
-        // first: moment($("#first-train-input").val().trim(), "HH:mm:ss").format("X"),
+    first: $("#first-train-input").val().trim(),
     frequency: $("#frequency-input").val().trim()
   };
 
-  console.log(newTrain.name, ", new train name");
-  console.log(newTrain.destination, ", new train destination");
-  console.log(newTrain.first, ", new train first train");
-  console.log(newTrain.frequency, ", new train frequency");
+  console.log(newTrain.name, "-new train name");
+  console.log(newTrain.destination, "-new train destination");
+  console.log(newTrain.first, "-new train first train");
+  console.log(newTrain.frequency, "-new train frequency");
 
   dbRef.push(newTrain);
 
@@ -41,29 +36,53 @@ $("#add-train-btn").on("click", function (event) {
 
 });
 
-console.log(newTrain, ", newTrain object");
-
 dbRef.on("child_added", function(childSnapshot, prevChildKey) {
 
-  // Employee Info
+  // New Train Info
   const newTrain = childSnapshot.val();
   console.log(newTrain);
   
-  // Calculate the next arrival using hardcore math
-  newTrain.nextArrival = moment("HH:mm").diff(moment(newTrain.first, "HH:mm"), "nextArrival");
-  console.log(newTrain.nextArrival);
+  let time;
 
-  newTrain.nextArrival = moment.unix(newTrain.nextArrival).format("HH:mm")
-  
-  // // Prettify the employee start (after using it to calculate months...)
-  // newEmp.start = moment.unix(newEmp.start).format("MM/DD/YY");
+  newTrain.minutesAway = moment(newTrain.first, "HH:mm").diff(moment(), "minutes");
 
-  // (now-firsttrain)/frequency=x | x
-  // newTrain.minutesAway = newTrain.nextArrival - moment().format("HH:mm");
-  // console.log(newEmp.billed);
+  let countDown = newTrain.minutesAway;
+  console.log(Math.sign(countDown));
 
-  // Add each employee's data into the table
+  if(Math.sign(countDown) === -1) {
+    let newCountDown = countDown;
+    console.log(newCountDown);
+
+    while(Math.sign(newCountDown) === -1) {
+      console.log(newTrain.frequency);
+      newCountDown = newCountDown + parseInt(newTrain.frequency);
+      // console.log(newCountDown);
+    }
+
+    time = newCountDown;
+    newTrain.minutesAway = time;
+
+    console.log(time);
+  }
+
+  else {
+    console.log(Math.sign(countDown));
+    time = countDown;
+    console.log(time);
+  }
+
+  // Calculate the next arrival
+  newTrain.nextArrival = moment().add(time, "minutes").format("HH:mm");
+  let nextTrain = newTrain.nextArrival;
+  console.log(nextTrain);
+
+  // Add each train to the table
   $("#train-table > tbody").append(createTrainRow(newTrain));
+
+}, 
+
+function(errorObject) {
+  console.log("Errors handled; " + errorObject.code);
 });
 
 function createTrainRow(train) {

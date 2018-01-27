@@ -7,10 +7,21 @@ body {
 	background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  font-family: 'Quicksand', sans-serif;
 }
 
 h1 {
 	font-family: 'Vesper Libre', serif;
+}
+
+h3 {
+	padding-top: 5px;
+	font-family: 'Vesper Libre', serif;
+	font-size: 24px;
+}
+
+.panel-title {
+	color: #EABB3B;
 }
 
 .container {
@@ -19,9 +30,22 @@ h1 {
 
 .jumbotron {
 	margin-top: 25px;
+	color: #EABB3B;
 }
 
 .form-control {
 	color: darkgrey;
 	font-size: 14px;
+}
+
+#add-train-btn {
+	background-image: url("../images/flag.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-color: #EABB3B;
+	border-color: #CB9E25;
+	font-family: 'Vesper Libre', serif;
+	color: black;
+	padding-top: 12px;
+	padding-left: 28px;
 }
